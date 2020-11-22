@@ -1,4 +1,4 @@
-let DappToken = artifacts.require('DappToken')
+const DappToken = artifacts.require('DappToken')
 
 contract('DappToken', (accounts) => {
   it('initializes the contract with the correct values', async () => {
@@ -162,17 +162,17 @@ contract('DappToken', (accounts) => {
     assert.equal(
       receipt.logs[0].event,
       'Transfer',
-      'should be the "Transfer" event'
+      'should be "Transfer" event'
     )
     assert.equal(
       receipt.logs[0].args._from,
       fromAccount,
-      'logs the account the tokens are transferred from'
+      'logs the sending account'
     )
     assert.equal(
       receipt.logs[0].args._to,
       toAccount,
-      'logs the account the tokens are transferred to'
+      'logs the receiving account'
     )
     assert.equal(receipt.logs[0].args._value, 10, 'logs the transfer amount')
 
