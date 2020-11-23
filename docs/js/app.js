@@ -46,6 +46,7 @@ let init = async () => {
   //   web3 = new Web3(web3Provider)
   // }
   account = await web3.eth.getCoinbase()
+  console.log('Account: ', account)
   const netID = await web3.eth.net.getId()
   console.log('netID: ', netID)
 
