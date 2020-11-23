@@ -31,7 +31,7 @@ const render = async () => {
 let init = async () => {
   // Initializing the web3 instance and setting some constants
   try {
-    let web3 = new web3(web3.givenProvider)
+    let web3 = new Web3(web3.givenProvider)
   } catch (error) {
     console.log(error)
     var web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
