@@ -1,7 +1,7 @@
 // Initializing the web3 instance and setting some constants
 try {
   var web3 = new Web3(Web3.givenProvider)
-  console.log(Web3.givenProvider)
+  console.log('Given Provider: ', Web3.givenProvider)
 } catch (error) {
   console.log(error)
   var web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
