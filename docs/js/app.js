@@ -44,8 +44,7 @@ let init = async () => {
   const DappToken = await (await fetch('DappToken.json')).json()
   dappToken = new web3.eth.Contract(
     DappToken.abi,
-    // '0xeaaa14e937f7506950a6bd37f5d86265def6a671'
-    DappToken.networks[netID].address
+    '0xeaaa14e937f7506950a6bd37f5d86265def6a671'
   )
   console.log('Dapp Token Address: ', dappToken.options.address)
 
@@ -53,8 +52,7 @@ let init = async () => {
   const DappTokenSale = await (await fetch('DappTokenSale.json')).json()
   dappTokenSale = new web3.eth.Contract(
     DappTokenSale.abi,
-    // '0xe4b5368a01cc3e8c56521ce0d674d8e62b361d68'
-    DappTokenSale.networks[netID].address
+    '0xe4b5368a01cc3e8c56521ce0d674d8e62b361d68'
   )
   console.log('Dapp Token Sale Address: ', dappTokenSale.options.address)
   tokenPrice = await dappTokenSale.methods.tokenPrice().call()
