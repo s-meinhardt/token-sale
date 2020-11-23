@@ -70,6 +70,8 @@ const buyTokens = async (e) => {
     value: numberOfToken * tokenPrice,
     gas: 500000,
   })
+  document.querySelector('form').reset()
+  console.log('Token bought...')
 }
 document.querySelector('form').addEventListener('submit', buyTokens)
 
