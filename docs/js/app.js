@@ -22,9 +22,6 @@ const render = async () => {
   document.querySelector('#loader').style.display = 'block'
   document.querySelector('#content').style.display = 'none'
 
-  account = (await web3.eth.getAccounts())[0]
-  console.log('Account: ', account)
-
   document.querySelector('#accountAddress').innerHTML =
     'Your Account: ' + account
   document.querySelector(
@@ -68,20 +65,28 @@ let initApp = async () => {
   console.log('Dapp Token Sale Address: ', dappTokenSale.options.address)
   tokenPrice = await dappTokenSale.methods.tokenPrice().call()
 
-  // Listen for the "Update" event emitted when the account changes
-  // await web3.currentProvider.publicConfigStore.on('update', render)
   // Listen for the "Sell" events emitted from the contract and render the page
   await dappTokenSale.events.Sell({ from: 'latest' }).on('data', render)
 
   if (window.ethereum) {
-    await ethereum.on('accountsChanged', (accounts) => render())
-  } else {
+    // Listen for the "accountsChanged" event and rerender the page
+    await ethereum.on('accountsChanged', (accounts) => {
+      account = accounts[0]
+      console.log('New Account: ', account)
+      render()
+    })
+  }
+
+  account = (await web3.eth.getAccounts())[0]
+  console.log('Account: ', account)
+  if (account !== undefined) {
     render()
   }
 }
 
 const buyTokens = async (e) => {
   e.preventDefault()
+  document.querySelector('.be-patient').style.display = 'block'
   const numberOfToken = document.querySelector('#numberOfToken').value
   await dappTokenSale.methods.buyTokens(numberOfToken).send({
     from: account,
@@ -90,6 +95,7 @@ const buyTokens = async (e) => {
   })
   document.querySelector('form').reset()
   console.log('Token bought...')
+  document.querySelector('.be-patient').style.display = 'none'
 }
 document.querySelector('form').addEventListener('submit', buyTokens)
 
