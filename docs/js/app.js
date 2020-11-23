@@ -71,10 +71,10 @@ let initApp = async () => {
   // Listen for the "Update" event emitted when the account changes
   // await web3.currentProvider.publicConfigStore.on('update', render)
   // Listen for the "Sell" events emitted from the contract and render the page
-  dappTokenSale.events.Sell({ from: 'latest' }).on('data', render)
+  await dappTokenSale.events.Sell({ from: 'latest' }).on('data', render)
 
   if (window.ethereum) {
-    ethereum.on('accountsChanged', (accounts) => render())
+    await ethereum.on('accountsChanged', (accounts) => render())
   } else {
     render()
   }
