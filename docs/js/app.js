@@ -1,3 +1,12 @@
+// Initializing the web3 instance and setting some constants
+try {
+  var web3 = new Web3(Web3.givenProvider)
+} catch (error) {
+  console.log(error)
+  var web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
+  var web3 = new Web3(web3Provider)
+}
+
 let dappToken
 let dappTokenSale
 let account
@@ -29,14 +38,6 @@ const render = async () => {
 }
 
 let init = async () => {
-  // Initializing the web3 instance and setting some constants
-  try {
-    let web3 = new Web3(web3.givenProvider)
-  } catch (error) {
-    console.log(error)
-    var web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
-    var web3 = new Web3(web3Provider)
-  }
   // if (typeof web3 !== 'undefined') {
   //   let web3 = new Web3(web3.givenProvider)
   // } else {
