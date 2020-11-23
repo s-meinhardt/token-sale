@@ -22,6 +22,9 @@ const render = async () => {
   document.querySelector('#loader').style.display = 'block'
   document.querySelector('#content').style.display = 'none'
 
+  account = (await web3.eth.getAccounts())[0]
+  console.log('Account: ', account)
+
   document.querySelector('#accountAddress').innerHTML =
     'Your Account: ' + account
   document.querySelector(
@@ -44,14 +47,7 @@ const render = async () => {
 
 let initApp = async () => {
   web3 = await initWeb3()
-  // if (typeof web3 !== 'undefined') {
-  //   let web3 = new Web3(web3.givenProvider)
-  // } else {
-  //   web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
-  //   web3 = new Web3(web3Provider)
-  // }
-  account = (await web3.eth.getAccounts())[0]
-  console.log('Account: ', account)
+
   const netID = await web3.eth.net.getId()
   console.log('netID: ', netID)
 
@@ -72,8 +68,11 @@ let initApp = async () => {
   console.log('Dapp Token Sale Address: ', dappTokenSale.options.address)
   tokenPrice = await dappTokenSale.methods.tokenPrice().call()
 
-  // Listen for events emitted from the contract and render the page
+  // Listen for the "Update" event emitted when the account changes
+  await web3.currentProvider.publicConfigStore.on('update', render)
+  // Listen for the "Sell" events emitted from the contract and render the page
   await dappTokenSale.events.Sell({ from: 'latest' }).on('data', render)
+
   render()
 }
 
