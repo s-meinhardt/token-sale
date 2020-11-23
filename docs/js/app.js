@@ -30,15 +30,22 @@ const render = async () => {
 
 let init = async () => {
   // Initializing the web3 instance and setting some constants
-  if (typeof web3 !== 'undefined') {
-    web3Provider = web3.currentProvider
-    web3 = new Web3(web3.currentProvider)
-  } else {
-    web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
-    web3 = new Web3(web3Provider)
+  try {
+    let web3 = new web3(web3.givenProvider)
+  } catch (error) {
+    console.log(error)
+    var web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
+    var web3 = new Web3(web3Provider)
   }
+  // if (typeof web3 !== 'undefined') {
+  //   let web3 = new Web3(web3.givenProvider)
+  // } else {
+  //   web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
+  //   web3 = new Web3(web3Provider)
+  // }
   account = await web3.eth.getCoinbase()
   const netID = await web3.eth.net.getId()
+  console.log('netID: ', netID)
 
   // Loading the DApp Token
   const DappToken = await (await fetch('DappToken.json')).json()
