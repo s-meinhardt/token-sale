@@ -69,7 +69,7 @@ let initApp = async () => {
   tokenPrice = await dappTokenSale.methods.tokenPrice().call()
 
   // Listen for the "Update" event emitted when the account changes
-  await web3.currentProvider.publicConfigStore.on('update', render)
+  // await web3.currentProvider.publicConfigStore.on('update', render)
   // Listen for the "Sell" events emitted from the contract and render the page
   await dappTokenSale.events.Sell({ from: 'latest' }).on('data', render)
 
