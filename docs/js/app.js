@@ -1,18 +1,22 @@
-// try {
-//   var web3 = new Web3(Web3.givenProvider)
-//   console.log('Given Provider: ', Web3.givenProvider)
-// } catch (error) {
-//   console.log(error)
-//   var web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
-//   var web3 = new Web3(web3Provider)
-// }
-
 let web3
 let dappToken
 let dappTokenSale
 let account
 let tokenPrice
 const tokensAvailable = 750000
+
+const initWeb3 = async () => {
+  if (window.ethereum) {
+    window.ethereum.enable()
+    return new Web3(window.ethereum)
+  } else {
+    alert(
+      'Please install an Ethereum-compatible browser or extension like MetaMask to use this dApp!'
+    )
+    web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
+    return new Web3(web3Provider)
+  }
+}
 
 const render = async () => {
   document.querySelector('#loader').style.display = 'block'
@@ -38,18 +42,8 @@ const render = async () => {
   document.querySelector('#content').style.display = 'block'
 }
 
-let init = async () => {
-  // Initializing the web3 instance and setting some constants
-  if (window.ethereum) {
-    web3 = new Web3(window.ethereum)
-    window.ethereum.enable()
-  } else {
-    alert(
-      'Please install an Ethereum-compatible browser or extension like MetaMask to use this dApp!'
-    )
-    web3Provider = new Web3.providers.HttpProvider('http://localhost:7545')
-    web3 = new Web3(web3Provider)
-  }
+let initApp = async () => {
+  web3 = await initWeb3()
   // if (typeof web3 !== 'undefined') {
   //   let web3 = new Web3(web3.givenProvider)
   // } else {
@@ -96,4 +90,4 @@ const buyTokens = async (e) => {
 }
 document.querySelector('form').addEventListener('submit', buyTokens)
 
-init()
+initApp()
